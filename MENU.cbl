@@ -1,7 +1,7 @@
        >>SOURCE FORMAT IS FREE
        IDENTIFICATION DIVISION.
        PROGRAM-ID. MENU.
-       AUTHOR. Lilian.
+       AUTHOR. Neko.
 
        DATA DIVISION.
        WORKING-STORAGE SECTION.
