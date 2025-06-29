@@ -1,0 +1,14 @@
+# Ficheiros de dados
+*.DAT
+
+# Ficheiros objeto compilados
+*.o
+*.obj
+
+# Executáveis
+ContasPagar
+*.exe
+
+# Ficheiros de listagem e outros temporários
+*.lst
+*.out
