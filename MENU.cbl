@@ -1,7 +1,7 @@
        >>SOURCE FORMAT IS FREE
        IDENTIFICATION DIVISION.
        PROGRAM-ID. MENU.
-       AUTHOR. Neko.
+       AUTHOR. Neko&lilyaragao.
 
        DATA DIVISION.
        WORKING-STORAGE SECTION.
@@ -10,6 +10,7 @@
        PROCEDURE DIVISION.
        MAIN-PROCEDURE.
            PERFORM UNTIL WS-OPCAO = 6
+           CALL "SYSTEM" USING "clear" *> Limpa a tela.
                DISPLAY "============================================="
                DISPLAY "    SISTEMA DE CONTAS A PAGAR"
                DISPLAY "============================================="
