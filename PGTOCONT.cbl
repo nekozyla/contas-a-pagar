@@ -1,4 +1,4 @@
-       >>SOURCE FORMAT IS FREE
+>>SOURCE FORMAT IS FREE
        IDENTIFICATION DIVISION.
        PROGRAM-ID. PGTOCONT.
        AUTHOR. Neko.
@@ -45,20 +45,20 @@
        01 WS-STATUS-HISTPAGTO      PIC X(2).
           88 STATUS-OK-HIST         VALUE '00'.
 
-       01 WS-OPCAO                 PIC X(1).
+       01 WS-OPCAO-PGTO            PIC X(1).
 
        PROCEDURE DIVISION.
        100-INICIAR.
-           PERFORM 200-MENU-PAGAMENTO UNTIL WS-OPCAO = 'S'.
+           PERFORM 200-MENU-PAGAMENTO UNTIL WS-OPCAO-PGTO = 'S'.
            GOBACK.
 
        200-MENU-PAGAMENTO.
            DISPLAY "--- Pagamento de Contas ---".
            DISPLAY "P - Pagar uma conta".
            DISPLAY "S - Sair para o menu principal".
-           ACCEPT WS-OPCAO.
+           ACCEPT WS-OPCAO-PGTO.
 
-           EVALUATE FUNCTION UPPER-CASE(WS-OPCAO)
+           EVALUATE FUNCTION UPPER-CASE(WS-OPCAO-PGTO)
                WHEN 'P'
                    PERFORM 300-PAGAR-CONTA
                WHEN 'S'
@@ -69,7 +69,6 @@
 
        300-PAGAR-CONTA.
            OPEN I-O CONTAPAGAR-FILE.
-      *>--- Correção: Verifica se o arquivo não existe (Status 35) ---*
            IF ARQUIVO-NAO-ENCONTRADO-CP
                DISPLAY "AVISO: Nenhuma conta foi lancada no sistema ainda."
                CLOSE CONTAPAGAR-FILE
@@ -141,3 +140,4 @@
            END-IF.
 
            CLOSE HISTPAGTO-FILE.
+

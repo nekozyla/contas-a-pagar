@@ -1,4 +1,4 @@
-       >>SOURCE FORMAT IS FREE
+>>SOURCE FORMAT IS FREE
        IDENTIFICATION DIVISION.
        PROGRAM-ID. CONSFORN.
        AUTHOR. Neko.
@@ -29,20 +29,20 @@
           88 ARQUIVO-NAO-ENCONTRADO   VALUE '35'.
 
        01 WS-CNPJ-CONSULTA       PIC 9(14).
-       01 WS-OPCAO                 PIC X(1).
+       01 WS-OPCAO-CONS          PIC X(1).
 
        PROCEDURE DIVISION.
        100-INICIAR.
-           PERFORM 200-MENU-CONSULTA UNTIL WS-OPCAO = 'S'.
+           PERFORM 200-MENU-CONSULTA UNTIL WS-OPCAO-CONS = 'S'.
            GOBACK.
 
        200-MENU-CONSULTA.
            DISPLAY "--- Consulta de Fornecedores ---".
            DISPLAY "C - Consultar por CNPJ".
            DISPLAY "S - Sair para o menu principal".
-           ACCEPT WS-OPCAO.
+           ACCEPT WS-OPCAO-CONS.
 
-           EVALUATE FUNCTION UPPER-CASE(WS-OPCAO)
+           EVALUATE FUNCTION UPPER-CASE(WS-OPCAO-CONS)
                WHEN 'C'
                    PERFORM 300-CONSULTAR-FORNECEDOR
                WHEN 'S'
@@ -85,3 +85,4 @@
            END-READ.
 
            CLOSE FORNECEDORES-FILE.
+

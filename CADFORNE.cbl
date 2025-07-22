@@ -1,4 +1,4 @@
-       IDENTIFICATION DIVISION.
+IDENTIFICATION DIVISION.
        PROGRAM-ID. CADFORNE.
        AUTHOR. Neko.
 
@@ -24,8 +24,9 @@
 
        WORKING-STORAGE SECTION.
        01 WS-STATUS-FORNECEDORES PIC X(2).
-          88 STATUS-OK                VALUE '00'.
-          88 ARQUIVO-NAO-ENCONTRADO   VALUE '35'.
+           88 STATUS-OK                VALUE '00'.
+           88 ARQUIVO-NAO-ENCONTRADO   VALUE '35'.
+           88 REGISTRO-NAO-ENCONTRADO  VALUE '23'.
 
        01 WS-FORNECEDOR-REG.
            05 WS-F-CNPJ           PIC 9(14).
@@ -35,6 +36,7 @@
            05 WS-F-EMAIL          PIC X(30).
 
        01 WS-OPCAO-CAD            PIC X(1).
+       01 WS-CONFIRMACAO          PIC X(1).
 
        PROCEDURE DIVISION.
        100-INICIAR.
@@ -44,8 +46,8 @@
        200-MOSTRAR-MENU-CADASTRO.
            DISPLAY "--- Cadastro de Fornecedores ---".
            DISPLAY "I - Incluir".
-           DISPLAY "A - Alterar (Nao implementado)".
-           DISPLAY "E - Excluir (Nao implementado)".
+           DISPLAY "A - Alterar".
+           DISPLAY "E - Excluir".
            DISPLAY "S - Sair para o menu principal".
            ACCEPT WS-OPCAO-CAD.
 
@@ -53,9 +55,9 @@
                WHEN 'I'
                    PERFORM 300-INCLUIR-FORNECEDOR
                WHEN 'A'
-                   DISPLAY "Rotina de Alteracao a ser implementada."
+                   PERFORM 400-ALTERAR-FORNECEDOR
                WHEN 'E'
-                   DISPLAY "Rotina de Exclusao a ser implementada."
+                   PERFORM 500-EXCLUIR-FORNECEDOR
                WHEN 'S'
                    CONTINUE
                WHEN OTHER
@@ -65,11 +67,9 @@
        300-INCLUIR-FORNECEDOR.
            DISPLAY "--- Inclusao de Novo Fornecedor ---".
            OPEN I-O FORNECEDORES-FILE.
-
            IF ARQUIVO-NAO-ENCONTRADO
                OPEN OUTPUT FORNECEDORES-FILE
            END-IF.
-
            IF NOT STATUS-OK
                DISPLAY "Erro ao abrir arquivo de fornecedores: "
                        WS-STATUS-FORNECEDORES
@@ -78,7 +78,6 @@
 
            DISPLAY "Digite o CNPJ (14 digitos): " WITH NO ADVANCING
            ACCEPT F-CNPJ.
-
            READ FORNECEDORES-FILE
                INVALID KEY
                    DISPLAY "Digite a Razao Social: " WITH NO ADVANCING
@@ -101,5 +100,83 @@
                NOT INVALID KEY
                    DISPLAY "ERRO: CNPJ ja cadastrado no sistema."
            END-READ.
+           CLOSE FORNECEDORES-FILE.
 
+      *>> NOVA ROTINA PARA ALTERAR DADOS DO FORNECEDOR
+       400-ALTERAR-FORNECEDOR.
+           DISPLAY "--- Alteracao de Fornecedor ---".
+           OPEN I-O FORNECEDORES-FILE.
+           IF NOT STATUS-OK
+               DISPLAY "Erro ao abrir arquivo de fornecedores: "
+                       WS-STATUS-FORNECEDORES
+               GOBACK
+           END-IF.
+
+           DISPLAY "Digite o CNPJ do fornecedor a alterar: "
+                   WITH NO ADVANCING.
+           ACCEPT F-CNPJ.
+
+           READ FORNECEDORES-FILE
+               INVALID KEY
+                   DISPLAY "ERRO: Fornecedor com CNPJ " F-CNPJ " nao encontrado."
+               NOT INVALID KEY
+                   DISPLAY "Dados atuais:"
+                   DISPLAY "Razao Social: " F-RAZAO-SOCIAL
+                   DISPLAY "Endereco:     " F-ENDERECO
+                   DISPLAY "Telefone:     " F-TELEFONE
+                   DISPLAY "Email:        " F-EMAIL
+                   DISPLAY "--- Digite os novos dados ---"
+                   DISPLAY "Digite a nova Razao Social: " WITH NO ADVANCING
+                   ACCEPT F-RAZAO-SOCIAL
+                   DISPLAY "Digite o novo Endereco: " WITH NO ADVANCING
+                   ACCEPT F-ENDERECO
+                   DISPLAY "Digite o novo Telefone: " WITH NO ADVANCING
+                   ACCEPT F-TELEFONE
+                   DISPLAY "Digite o novo E-mail: " WITH NO ADVANCING
+                   ACCEPT F-EMAIL
+
+                   REWRITE FORNECEDOR-REG
+                       INVALID KEY
+                           DISPLAY "ERRO ao alterar o fornecedor. Status: "
+                                   WS-STATUS-FORNECEDORES
+                       NOT INVALID KEY
+                           DISPLAY "Fornecedor alterado com sucesso!"
+                   END-REWRITE
+           END-READ.
+           CLOSE FORNECEDORES-FILE.
+
+      *>> NOVA ROTINA PARA EXCLUIR UM FORNECEDOR
+       500-EXCLUIR-FORNECEDOR.
+           DISPLAY "--- Exclusao de Fornecedor ---".
+           OPEN I-O FORNECEDORES-FILE.
+           IF NOT STATUS-OK
+               DISPLAY "Erro ao abrir arquivo de fornecedores: "
+                       WS-STATUS-FORNECEDORES
+               GOBACK
+           END-IF.
+
+           DISPLAY "Digite o CNPJ do fornecedor a excluir: "
+                   WITH NO ADVANCING.
+           ACCEPT F-CNPJ.
+
+           READ FORNECEDORES-FILE
+               INVALID KEY
+                   DISPLAY "ERRO: Fornecedor com CNPJ " F-CNPJ " nao encontrado."
+               NOT INVALID KEY
+                   DISPLAY "Fornecedor encontrado: " F-RAZAO-SOCIAL
+                   DISPLAY "Tem certeza que deseja excluir? (S/N): "
+                           WITH NO ADVANCING
+                   ACCEPT WS-CONFIRMACAO
+                   IF FUNCTION UPPER-CASE(WS-CONFIRMACAO) = 'S'
+                       DELETE FORNECEDORES-FILE RECORD
+                           INVALID KEY
+                               DISPLAY "ERRO ao excluir. Status: "
+                                       WS-STATUS-FORNECEDORES
+                           NOT INVALID KEY
+                               DISPLAY "Fornecedor excluido com sucesso!"
+                       END-DELETE
+                   ELSE
+                       DISPLAY "Operacao de exclusao cancelada."
+                   END-IF
+           END-READ.
            CLOSE FORNECEDORES-FILE.

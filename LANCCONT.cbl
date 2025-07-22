@@ -1,4 +1,4 @@
-       >>SOURCE FORMAT IS FREE
+>>SOURCE FORMAT IS FREE
        IDENTIFICATION DIVISION.
        PROGRAM-ID. LANCCONT.
        AUTHOR. Neko.
@@ -48,20 +48,20 @@
           88 STATUS-OK-CP           VALUE '00'.
           88 ARQUIVO-NAO-ENCONTRADO-CP VALUE '35'.
 
-       01 WS-OPCAO                 PIC X(1).
+       01 WS-OPCAO-LANC            PIC X(1).
 
        PROCEDURE DIVISION.
        100-INICIAR.
-           PERFORM 200-MENU-LANCAMENTO UNTIL WS-OPCAO = 'S'.
+           PERFORM 200-MENU-LANCAMENTO UNTIL WS-OPCAO-LANC = 'S'.
            GOBACK.
 
        200-MENU-LANCAMENTO.
            DISPLAY "--- Lancamento de Contas a Pagar ---".
            DISPLAY "L - Lancar nova conta".
            DISPLAY "S - Sair para o menu principal".
-           ACCEPT WS-OPCAO.
+           ACCEPT WS-OPCAO-LANC.
 
-           EVALUATE FUNCTION UPPER-CASE(WS-OPCAO)
+           EVALUATE FUNCTION UPPER-CASE(WS-OPCAO-LANC)
                WHEN 'L'
                    PERFORM 300-LANCAR-CONTA
                WHEN 'S'
@@ -146,3 +146,4 @@
            END-WRITE.
 
            CLOSE CONTAPAGAR-FILE.
+
