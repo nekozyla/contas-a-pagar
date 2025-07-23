@@ -5,12 +5,16 @@ IDENTIFICATION DIVISION.
        ENVIRONMENT DIVISION.
        INPUT-OUTPUT SECTION.
        FILE-CONTROL.
-           SELECT FORNECEDORES-FILE
-           ASSIGN TO 'FORNECEDOR.DAT'
+           SELECT FORNECEDORES-FILE *> Como o codigo vai se referir ao arquivo
+           ASSIGN TO 'FORNECEDOR.DAT' *> Nome do arquivo no computador
            ORGANIZATION IS INDEXED
-           ACCESS MODE IS DYNAMIC
-           RECORD KEY IS F-CNPJ
-           FILE STATUS IS WS-STATUS-FORNECEDORES.
+           ACCESS MODE IS DYNAMIC *> Alterna entre sequencial e random access
+           RECORD KEY IS F-CNPJ *> O que vai ser usado pra achar os dados
+           FILE STATUS IS WS-STATUS-FORNECEDORES. *> Na variavel WS-STATUS-FORNECEDORES
+                                                    *> vai ser armazenado um código de
+                                                    *> 2 digitos dizendo se falhou ou teve sucesso
+                                                    *> em acessar o arquivo.
+
 
        DATA DIVISION.
        FILE SECTION.
@@ -24,8 +28,8 @@ IDENTIFICATION DIVISION.
 
        WORKING-STORAGE SECTION.
        01 WS-STATUS-FORNECEDORES PIC X(2).
-           88 STATUS-OK                VALUE '00'.
-           88 ARQUIVO-NAO-ENCONTRADO   VALUE '35'.
+           88 STATUS-OK                VALUE '00'.   *> Se o arquivo abrir corretamente
+           88 ARQUIVO-NAO-ENCONTRADO   VALUE '35'.    *> Erro ao abrir o arquivo
            88 REGISTRO-NAO-ENCONTRADO  VALUE '23'.
 
        01 WS-FORNECEDOR-REG.
@@ -35,7 +39,7 @@ IDENTIFICATION DIVISION.
            05 WS-F-TELEFONE       PIC 9(11).
            05 WS-F-EMAIL          PIC X(30).
 
-       01 WS-OPCAO-CAD            PIC X(1).
+       01 WS-OPCAO-CAD            PIC X(1) VALUE SPACES. *> Uma variavel com um " ", evita lixo de sistema
        01 WS-CONFIRMACAO          PIC X(1).
 
        PROCEDURE DIVISION.
@@ -68,7 +72,7 @@ IDENTIFICATION DIVISION.
            DISPLAY "--- Inclusao de Novo Fornecedor ---".
            OPEN I-O FORNECEDORES-FILE.
            IF ARQUIVO-NAO-ENCONTRADO
-               OPEN OUTPUT FORNECEDORES-FILE
+               OPEN OUTPUT FORNECEDORES-FILE    *> Tenta abrir o arquivo dnv
            END-IF.
            IF NOT STATUS-OK
                DISPLAY "Erro ao abrir arquivo de fornecedores: "

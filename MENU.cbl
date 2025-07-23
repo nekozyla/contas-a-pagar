@@ -1,4 +1,4 @@
-       >>SOURCE FORMAT IS FREE
+       >>SOURCE FORMAT IS FREE *> Basicamente a flag -F
        IDENTIFICATION DIVISION.
        PROGRAM-ID. MENU.
        AUTHOR. Neko&lilyaragao&carol.
@@ -20,7 +20,7 @@
                DISPLAY "4 - Consultas"
                DISPLAY "5 - Relatorios"
                DISPLAY "6 - Sair"
-               DISPLAY "Escolha uma opcao: " WITH NO ADVANCING
+               DISPLAY "Escolha uma opcao: " WITH NO ADVANCING *> Não pular linha
                ACCEPT WS-OPCAO
 
                EVALUATE WS-OPCAO
