@@ -1,7 +1,7 @@
 >>SOURCE FORMAT IS FREE
        IDENTIFICATION DIVISION.
        PROGRAM-ID. RELFORN.
-       AUTHOR. Neko.
+       AUTHOR. carol&lilyargao.
 
        ENVIRONMENT DIVISION.
        INPUT-OUTPUT SECTION.

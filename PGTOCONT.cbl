@@ -1,7 +1,7 @@
 >>SOURCE FORMAT IS FREE
        IDENTIFICATION DIVISION.
        PROGRAM-ID. PGTOCONT.
-       AUTHOR. Neko.
+       AUTHOR. Neko&lilyaragao&carol.
 
        ENVIRONMENT DIVISION.
        INPUT-OUTPUT SECTION.
