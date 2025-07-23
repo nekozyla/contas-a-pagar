@@ -23,7 +23,7 @@
                DISPLAY "Escolha uma opcao: " WITH NO ADVANCING *> Não pular linha
                ACCEPT WS-OPCAO
 
-               EVALUATE WS-OPCAO
+               EVALUATE WS-OPCAO *> Basicamente um switch case.
                    WHEN 1
                        CALL 'CADFORNE'
                    WHEN 2

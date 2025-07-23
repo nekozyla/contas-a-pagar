@@ -1,4 +1,4 @@
-IDENTIFICATION DIVISION.
+       IDENTIFICATION DIVISION.
        PROGRAM-ID. CADFORNE.
        AUTHOR. lilyaragao.
 
@@ -29,8 +29,8 @@ IDENTIFICATION DIVISION.
        WORKING-STORAGE SECTION.
        01 WS-STATUS-FORNECEDORES PIC X(2).
            88 STATUS-OK                VALUE '00'.   *> Se o arquivo abrir corretamente
-           88 ARQUIVO-NAO-ENCONTRADO   VALUE '35'.    *> Erro ao abrir o arquivo
-           88 REGISTRO-NAO-ENCONTRADO  VALUE '23'.
+           88 ARQUIVO-NAO-ENCONTRADO   VALUE '35'.   *> Erro ao abrir o arquivo
+           88 REGISTRO-NAO-ENCONTRADO  VALUE '23'.   *> Nao achou o registro
 
        01 WS-FORNECEDOR-REG.
            05 WS-F-CNPJ           PIC 9(14).
@@ -68,6 +68,7 @@ IDENTIFICATION DIVISION.
                    DISPLAY "Opcao de cadastro invalida!"
            END-EVALUATE.
 
+       *> FUNCAO PARA INCLUIR UM NOVO FORNECEDOR
        300-INCLUIR-FORNECEDOR.
            DISPLAY "--- Inclusao de Novo Fornecedor ---".
            OPEN I-O FORNECEDORES-FILE.
@@ -106,7 +107,7 @@ IDENTIFICATION DIVISION.
            END-READ.
            CLOSE FORNECEDORES-FILE.
 
-      *>> NOVA ROTINA PARA ALTERAR DADOS DO FORNECEDOR
+      *> FUNCAO PARA ALTERAR DADOS DE UM FORNECEDOR JA EXISTENTE
        400-ALTERAR-FORNECEDOR.
            DISPLAY "--- Alteracao de Fornecedor ---".
            OPEN I-O FORNECEDORES-FILE.
@@ -149,7 +150,7 @@ IDENTIFICATION DIVISION.
            END-READ.
            CLOSE FORNECEDORES-FILE.
 
-      *>> NOVA ROTINA PARA EXCLUIR UM FORNECEDOR
+      *> FUNCAO PARA EXCLUIR UM FORNECEDOR
        500-EXCLUIR-FORNECEDOR.
            DISPLAY "--- Exclusao de Fornecedor ---".
            OPEN I-O FORNECEDORES-FILE.
